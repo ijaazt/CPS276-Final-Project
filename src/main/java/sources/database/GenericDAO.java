@@ -16,5 +16,5 @@ public interface GenericDAO<E> {
 
     boolean editRow(int id, E value) throws SQLException;
 
-    void deleteAllRows();
+    boolean deleteAllRows() throws SQLException;
 }
