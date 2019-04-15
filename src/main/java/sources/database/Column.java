@@ -1,18 +1,18 @@
 package sources.database;
 
-public class Column {
+class Column {
     private final String name, type;
 
-    public Column(String name, String type) {
+    Column(String name, String type) {
         this.name = name;
         this.type = type;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public String getType() {
+    String getType() {
         return type;
     }
 

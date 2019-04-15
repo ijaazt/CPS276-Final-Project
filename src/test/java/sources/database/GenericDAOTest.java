@@ -15,37 +15,36 @@ public class GenericDAOTest {
     public void setUp() throws Exception {
         genericDAO = new GenericDAO<Integer>(null) {
             @Override
-            List<Integer> getRows() throws SQLException {
+            public List<Integer> getRows() throws SQLException {
                 return null;
             }
 
             @Override
-            boolean createTable() throws SQLException {
+            public boolean createTable() throws SQLException {
                 return false;
             }
 
             @Override
-            boolean deleteRow(int id) throws SQLException {
+            public boolean deleteRow(int id) throws SQLException {
                 return false;
             }
 
             @Override
-            boolean createRow(Integer value) throws SQLException {
+            public void createRow(Integer value) throws SQLException {
+            }
+
+            @Override
+            public boolean dropTable() throws SQLException {
                 return false;
             }
 
             @Override
-            boolean dropTable() throws SQLException {
+            public boolean editRow(Integer id, Integer value) throws SQLException {
                 return false;
             }
 
             @Override
-            boolean editRow(Integer id, Integer value) throws SQLException {
-                return false;
-            }
-
-            @Override
-            boolean deleteAllRows() throws SQLException {
+            public boolean deleteAllRows() throws SQLException {
                 return false;
             }
         };

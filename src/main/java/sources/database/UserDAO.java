@@ -12,6 +12,7 @@ public class UserDAO extends GenericDAO<User> {
     public UserDAO(Connection connection) {
         super(connection);
     }
+    public UserDAO() {}
 
     @Override
     public List<User> getRows() throws SQLException {
@@ -47,7 +48,7 @@ public class UserDAO extends GenericDAO<User> {
     }
 
     @Override
-    public boolean createRow(User value) throws SQLException {
+    public void createRow(User value) throws SQLException {
         String sql = preparedInsert(TABLE_NAME, TABLE_COLUMN_ID, TABLE_COLUMN_USER_NAME, TABLE_COLUMN_FIRST_NAME, TABLE_COLUMN_LAST_NAME, TABLE_COLUMN_PASSWORD);
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setObject(1, value.getId());
@@ -55,7 +56,7 @@ public class UserDAO extends GenericDAO<User> {
             preparedStatement.setObject(3, value.getFirstName());
             preparedStatement.setObject(4, value.getLastName());
             preparedStatement.setObject(5, value.getPassword());
-            return preparedStatement.execute();
+            preparedStatement.execute();
         }
     }
 

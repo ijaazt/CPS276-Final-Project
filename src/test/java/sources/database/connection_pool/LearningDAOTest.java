@@ -16,6 +16,7 @@ import java.util.List;
 
 import static info.DatabaseInfo.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class LearningDAOTest {
     private LearningDAO learningDAO;
@@ -38,6 +39,7 @@ public class LearningDAOTest {
         Learning learning2 = learningDAO.getRows().get(0);
         assertEquals(learning1, learning2);
     }
+
     @Before
     public void setup() throws TooManyConnectionsException, SQLException {
         basicConnectionPool = BasicConnectionPool.createPool(URL.info(), USERNAME.info(), PASSWORD.info());

@@ -3,13 +3,15 @@ package sources.database;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
 
 import static java.util.stream.IntStream.*;
 
-abstract class GenericDAO<E> {
-    private final Connection connection;
+public abstract class GenericDAO<E> {
+    private Connection connection;
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
 
     public Connection getConnection() {
         return connection;
@@ -18,6 +20,7 @@ abstract class GenericDAO<E> {
     GenericDAO(Connection connection) {
         this.connection = connection;
     }
+    GenericDAO() { }
 
     String tableCreator(String tableName, Column... args) {
         if(args == null || tableName == null) {
@@ -54,17 +57,17 @@ abstract class GenericDAO<E> {
         return sql.toString();
     }
 
-    abstract List<E> getRows() throws SQLException;
+    public abstract List<E> getRows() throws SQLException;
 
-    abstract boolean createTable() throws SQLException;
+    public abstract boolean createTable() throws SQLException;
 
-    abstract boolean deleteRow(int id) throws SQLException;
+    public abstract boolean deleteRow(int id) throws SQLException;
 
-    abstract boolean createRow(E value) throws SQLException;
+    public abstract void createRow(E value) throws SQLException;
 
-    abstract boolean dropTable() throws SQLException;
+    public abstract boolean dropTable() throws SQLException;
 
-    abstract boolean editRow(Integer id, E value) throws SQLException;
+    public abstract boolean editRow(Integer id, E value) throws SQLException;
 
-    abstract boolean deleteAllRows() throws SQLException;
+    public abstract boolean deleteAllRows() throws SQLException;
 }

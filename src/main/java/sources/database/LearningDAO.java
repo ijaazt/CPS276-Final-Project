@@ -15,6 +15,10 @@ public class LearningDAO extends GenericDAO<Learning> {
         super(connection);
     }
 
+    public LearningDAO() {
+
+    }
+
     public boolean createTable() throws SQLException {
         String sql = tableCreator(TABLE_NAME, TABLE_COLUMN_CATEGORY, TABLE_COLUMN_LEARNING, TABLE_COLUMN_DATE_ADDED, TABLE_COLUMN_ID, TABLE_COLUMN_USER_ID);
         return getConnection().createStatement().execute(sql);
@@ -48,7 +52,7 @@ public class LearningDAO extends GenericDAO<Learning> {
     }
 
     @Override
-    public boolean createRow(Learning value) throws SQLException {
+    public void createRow(Learning value) throws SQLException {
         String sql = preparedInsert(TABLE_NAME, TABLE_COLUMN_USER_ID, TABLE_COLUMN_ID, TABLE_COLUMN_DATE_ADDED, TABLE_COLUMN_LEARNING, TABLE_COLUMN_CATEGORY);
         try(PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setObject(1, value.getUserId());
@@ -56,7 +60,7 @@ public class LearningDAO extends GenericDAO<Learning> {
             preparedStatement.setObject(3, value.getDate());
             preparedStatement.setObject(4, value.getLearning());
             preparedStatement.setObject(5, value.getCategory());
-            return preparedStatement.execute();
+            preparedStatement.execute();
         }
     }
 

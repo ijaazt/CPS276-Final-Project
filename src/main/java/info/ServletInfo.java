@@ -1,9 +1,7 @@
 package info;
 
 public enum ServletInfo {
-    JSP_ADDRESS("/PersonCollection.jsp"),
-    CONNECTION_POOL("connectionPool"),
-    PERSON_LIST("personList");
+    REPOSITORY("repository");
     private String info;
 
     public String info() {
