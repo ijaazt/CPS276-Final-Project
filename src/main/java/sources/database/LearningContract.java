@@ -1,10 +1,10 @@
 package sources.database;
 
-public class LearningContract {
-    public static String TABLE_NAME = "LearningCollection";
-    public static String TABLE_COLUMN_ID = "id";
-    public static String TABLE_COLUMN_LEARNING = "learning";
-    public static String TABLE_COLUMN_USER_ID = "userId";
-    public static String TABLE_COLUMN_CATEGORY = "category";
-    public static String TABLE_COLUMN_DATE_ADDED = "dateAdded";
+class LearningContract {
+    static final String TABLE_NAME = "LearningCollection";
+    static final Column TABLE_COLUMN_ID = new Column("id", "INT PRIMARY KEY AUTO_INCREMENT");
+    static final Column TABLE_COLUMN_LEARNING = new Column("learning", "VARCHAR(300)");
+    static final Column TABLE_COLUMN_CATEGORY = new Column("category", "VARCHAR(400)");
+    static final Column TABLE_COLUMN_USER_ID = new Column("userId", "INT");
+    static final Column TABLE_COLUMN_DATE_ADDED= new Column("dateAdded", "DATE");
 }

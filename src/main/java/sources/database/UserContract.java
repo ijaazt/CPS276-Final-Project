@@ -1,10 +1,10 @@
 package sources.database;
 
-public class UserContract {
-    public static String TABLE_NAME = "User";
-    public static String TABLE_COLUMN_ID = "id";
-    public static String TABLE_COLUMN_USER_NAME = "username";
-    public static String TABLE_COLUMN_FIRST_NAME = "firstName";
-    public static String TABLE_COLUMN_LAST_NAME = "lastName";
-    public static String TABLE_COLUMN_PASSWORD = "password";
+class UserContract {
+    static final String TABLE_NAME = "User";
+    static final Column TABLE_COLUMN_ID = new Column("id", "INT PRIMARY KEY AUTO_INCREMENT");
+    static final Column TABLE_COLUMN_USER_NAME = new Column("username", "VARCHAR(60)");
+    static final Column TABLE_COLUMN_FIRST_NAME = new Column("firstName", "VARCHAR(60)");
+    static final Column TABLE_COLUMN_LAST_NAME = new Column("lastName", "VARCHAR(60)");
+    static final Column TABLE_COLUMN_PASSWORD = new Column("password", "VARCHAR(60)");
 }

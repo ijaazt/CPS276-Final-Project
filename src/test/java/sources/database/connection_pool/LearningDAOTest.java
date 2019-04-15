@@ -29,7 +29,15 @@ public class LearningDAOTest {
         learningDAO.dropTable();
         learningDAO.getRows();
     }
-
+  @Test
+    public void modifyRow() throws SQLException {
+      Learning learning = new Learning("programming", "testing is bad", LocalDate.parse("2018-03-12"), 1, 1);
+      Learning learning1 = new Learning("testing", "testing is bad", LocalDate.parse("2018-03-12"), 1, 1);
+        learningDAO.createRow(learning);
+        learningDAO.editRow(1, learning1);
+        Learning learning2 = learningDAO.getRows().get(0);
+        assertEquals(learning1, learning2);
+    }
     @Before
     public void setup() throws TooManyConnectionsException, SQLException {
         basicConnectionPool = BasicConnectionPool.createPool(URL.info(), USERNAME.info(), PASSWORD.info());
