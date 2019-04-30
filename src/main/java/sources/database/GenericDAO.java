@@ -59,15 +59,15 @@ public abstract class GenericDAO<E> {
 
     public abstract List<E> getRows() throws SQLException;
 
-    public abstract boolean createTable() throws SQLException;
+    public abstract void createTable() throws SQLException;
 
-    public abstract boolean deleteRow(int id) throws SQLException;
+    public abstract void deleteRow(int id) throws SQLException;
 
     public abstract void createRow(E value) throws SQLException;
 
-    public abstract boolean dropTable() throws SQLException;
+    public abstract void dropTable() throws SQLException;
 
-    public abstract boolean editRow(Integer id, E value) throws SQLException;
+    public abstract void editRow(Integer id, E value) throws SQLException;
 
-    public abstract boolean deleteAllRows() throws SQLException;
+    public abstract void deleteAllRows() throws SQLException;
 }

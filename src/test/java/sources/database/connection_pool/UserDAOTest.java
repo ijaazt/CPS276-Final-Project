@@ -3,9 +3,9 @@ package sources.database.connection_pool;
 import exceptions.TooManyConnectionsException;
 import model.Learning;
 import model.User;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import sources.database.UserDAO;
 
 import java.sql.Connection;
@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static info.DatabaseInfo.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserDAOTest {
     private UserDAO userDAO;
@@ -25,15 +24,17 @@ public class UserDAOTest {
     private Connection currentConnection;
     private List<User> expected;
 
-    @Test(expected = SQLException.class)
-    public void droppingConnections() throws SQLException {
-        userDAO.createTable();
-        userDAO.dropTable();
-        userDAO.getRows();
+    @Test
+    void droppingConnections() throws SQLException {
+        assertThrows(SQLException.class, ()-> {
+            userDAO.createTable();
+            userDAO.dropTable();
+            userDAO.getRows();
+        });
     }
 
-    @Before
-    public void setup() throws TooManyConnectionsException, SQLException {
+    @BeforeEach
+    void setup() throws TooManyConnectionsException, SQLException {
         basicConnectionPool = BasicConnectionPool.createPool(URL.info(), USERNAME.info(), PASSWORD.info());
         currentConnection = basicConnectionPool.getConnection();
         userDAO = new UserDAO(basicConnectionPool.getConnection());
@@ -42,13 +43,13 @@ public class UserDAOTest {
         expected = new ArrayList<>();
     }
 
-    @After
-    public void cleanup() {
+    @AfterEach
+    void cleanup() {
         basicConnectionPool.releaseConnection(currentConnection);
     }
 
     @Test
-    public void basicReturn() throws SQLException, TooManyConnectionsException, ParseException {
+    void basicReturn() throws SQLException, TooManyConnectionsException, ParseException {
         expected.add(new User("ijaaz", "testingisgreat", "Muhammad", "Tello", 1));
         userDAO.createRow(expected.get(0));
         List<User> actual = userDAO.getRows();
@@ -56,7 +57,7 @@ public class UserDAOTest {
     }
 
     @Test
-    public void addingNullId() throws SQLException {
+    void addingNullId() throws SQLException {
         //public Learning(String category, String learning, Date date, int id, int userId) {
         User user = new User("programming", "testingisbad", "Muhammad", "Tell", null);
         User user1 = new User("programming", "testingisbad", "Muhammad", "Tell", null);
@@ -70,7 +71,7 @@ public class UserDAOTest {
     }
 
     @Test
-    public void removingFromDB() throws SQLException {
+    void removingFromDB() throws SQLException {
         User user = new User("programming", "testingisbad", "Muhammad", "Tello", 1);
         expected.add(user);
         userDAO.createRow(user);
@@ -80,7 +81,7 @@ public class UserDAOTest {
     }
 
     @Test
-    public void modifyRow() throws SQLException {
+    void modifyRow() throws SQLException {
         User user = new User("programming", "testingisbad", "Muhammad", "Tello", 1);
         User user1 = new User("testing", "testingisbad", "Muhammad", "Tello", 1);
         userDAO.createRow(user);
@@ -90,7 +91,7 @@ public class UserDAOTest {
     }
 
     @Test
-    public void removingAllFromDB() throws SQLException {
+    void removingAllFromDB() throws SQLException {
         User user = new User("programming", "testingisbad", "Muhammad", "Tell", 1);
         User user1 = new User("programming", "testingisbad", "Muhammad", "Tell", 2);
         userDAO.createRow(user);

@@ -19,9 +19,9 @@ public class LearningDAO extends GenericDAO<Learning> {
 
     }
 
-    public boolean createTable() throws SQLException {
+    public void createTable() throws SQLException {
         String sql = tableCreator(TABLE_NAME, TABLE_COLUMN_CATEGORY, TABLE_COLUMN_LEARNING, TABLE_COLUMN_DATE_ADDED, TABLE_COLUMN_ID, TABLE_COLUMN_USER_ID);
-        return getConnection().createStatement().execute(sql);
+        getConnection().createStatement().execute(sql);
     }
 
 
@@ -46,9 +46,9 @@ public class LearningDAO extends GenericDAO<Learning> {
     }
 
     @Override
-    public boolean deleteRow(int id) throws SQLException {
+    public void deleteRow(int id) throws SQLException {
         String sql = "DELETE FROM " + TABLE_NAME + " WHERE " + TABLE_COLUMN_ID.getName() + "=" + id;
-        return getConnection().createStatement().execute(sql);
+        getConnection().createStatement().execute(sql);
     }
 
     @Override
@@ -65,25 +65,25 @@ public class LearningDAO extends GenericDAO<Learning> {
     }
 
     @Override
-    public boolean dropTable() throws SQLException {
+    public void dropTable() throws SQLException {
         String sql = "DROP TABLE IF EXISTS " + TABLE_NAME;
-        return getConnection().createStatement().execute(sql);
+        getConnection().createStatement().execute(sql);
     }
 
     @Override
-    public boolean editRow(Integer id, Learning value) throws SQLException {
+    public void editRow(Integer id, Learning value) throws SQLException {
         String sql = preparedEdit(TABLE_NAME, String.valueOf(id), TABLE_COLUMN_ID, TABLE_COLUMN_CATEGORY, TABLE_COLUMN_LEARNING, TABLE_COLUMN_DATE_ADDED);
         try(PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setObject(1, value.getCategory());
             preparedStatement.setObject(2, value.getLearning());
             preparedStatement.setObject(3, value.getDate());
-            return preparedStatement.execute();
+            preparedStatement.execute();
         }
     }
 
     @Override
-    public boolean deleteAllRows() throws SQLException {
+    public void deleteAllRows() throws SQLException {
         String sql = "DELETE FROM " + TABLE_NAME;
-        return getConnection().createStatement().execute(sql);
+        getConnection().createStatement().execute(sql);
     }
 }

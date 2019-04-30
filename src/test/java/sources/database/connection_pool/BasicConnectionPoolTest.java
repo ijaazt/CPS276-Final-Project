@@ -1,40 +1,44 @@
 package sources.database.connection_pool;
 
 import exceptions.TooManyConnectionsException;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.SQLNonTransientConnectionException;
 
 import static info.DatabaseInfo.*;
 
-public class BasicConnectionPoolTest {
-    ConnectionPool basicConnectionPool;
-    @Before public  void setup() throws SQLException {
+class BasicConnectionPoolTest {
+    private ConnectionPool basicConnectionPool;
+    @BeforeEach void setup() throws SQLException {
         basicConnectionPool = BasicConnectionPool.createPool(URL.info(), USERNAME.info(), PASSWORD.info());
     }
 
-    @Test(expected = SQLException.class)
-    public void createBadConnection() throws SQLException {
-        basicConnectionPool = BasicConnectionPool.createPool(null, USERNAME.info(), PASSWORD.info());
+    @Test
+    void createBadConnection() throws SQLException {
+        assertThrows(SQLException.class, ()-> {
+            basicConnectionPool = BasicConnectionPool.createPool(null, USERNAME.info(), PASSWORD.info());
+        });
     }
-    @Test public void connectionIsNotNull() throws TooManyConnectionsException {
+    @Test void connectionIsNotNull() throws TooManyConnectionsException {
         assertNotNull(basicConnectionPool.getConnection());
     }
-    @Test(expected = TooManyConnectionsException.class)
-    public void whenTooManConnections() throws TooManyConnectionsException {
-        while(basicConnectionPool.getConnection() != null);
+    @Test
+    void whenTooManConnections() throws TooManyConnectionsException {
+        assertThrows(TooManyConnectionsException.class, ()->{ while(basicConnectionPool.getConnection() != null);}
+    );
     }
 
-    @Test(expected = Exception.class)
-    public void closedConnections() throws TooManyConnectionsException, SQLException {
-        basicConnectionPool.closeAllConnections();
-        basicConnectionPool.getConnection().createStatement().execute("");
+    @Test
+    void closedConnections() throws TooManyConnectionsException, SQLException {
+        assertThrows(Exception.class, () ->{
+            basicConnectionPool.closeAllConnections();
+            basicConnectionPool.getConnection().createStatement().execute("");
+        });
     }
-    @Test public void addsConnections() throws TooManyConnectionsException {
+    @Test void addsConnections() throws TooManyConnectionsException {
         int initialMax = basicConnectionPool.getMaxConnection();
         try {
             for (int i = 0; i < basicConnectionPool.getMaxConnection(); i++) {
@@ -47,10 +51,10 @@ public class BasicConnectionPoolTest {
         basicConnectionPool.getConnection();
         assertEquals(initialMax + 20, basicConnectionPool.getMaxConnection());
     }
-    @Test public void releasingConnection() throws TooManyConnectionsException {
+    @Test void releasingConnection() throws TooManyConnectionsException {
         Connection connection = basicConnectionPool.getConnection();
-        int unsedConnectionLimit = basicConnectionPool.getAvailableConnectionLimit();
+        int unusedConnectionLimit = basicConnectionPool.getAvailableConnectionLimit();
         basicConnectionPool.releaseConnection(connection);
-        assertEquals(unsedConnectionLimit + 1, basicConnectionPool.getAvailableConnectionLimit());
+        assertEquals(unusedConnectionLimit + 1, basicConnectionPool.getAvailableConnectionLimit());
     }
 }

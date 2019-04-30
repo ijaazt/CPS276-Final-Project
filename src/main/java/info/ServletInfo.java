@@ -1,7 +1,8 @@
 package info;
 
 public enum ServletInfo {
-    REPOSITORY("repository");
+    REPOSITORY("repository"),
+    USER_AUTH("userAuth");
     private String info;
 
     public String info() {

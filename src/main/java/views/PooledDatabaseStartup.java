@@ -1,6 +1,5 @@
 package views;
 
-import com.sun.corba.se.spi.activation.RepositoryOperations;
 import controller.Repository;
 import sources.database.LearningDAO;
 import sources.database.UserDAO;
@@ -24,7 +23,6 @@ public class PooledDatabaseStartup implements ServletContextListener {
             Class.forName(DRIVER_CLASS_NAME.info()).newInstance();
             ConnectionPool connectionPool = createPool(URL.info(), USERNAME.info(), PASSWORD.info());
             Repository repository = new Repository(connectionPool, new LearningDAO(), new UserDAO());
-            //Repository(ConnectionPool connectionPool, LearningDAO learningDAO, UserDAO userDAO) {
             sce.getServletContext().setAttribute(REPOSITORY.info(), repository);
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
